@@ -1,0 +1,2246 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AZUREA Private Resort | Arrive Somewhere Extraordinary</title>
+  
+  <!-- Favicon placeholder using SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C5A880'><circle cx='12' cy='12' r='10' stroke='%23C5A880' stroke-width='1.5' fill='none'/><path d='M8 12c2.5-3 5.5-3 8 0-2.5 3-5.5 3-8 0z'/></svg>">
+
+  <!-- Google Fonts: Cormorant Garamond (Editorial Serif) & Plus Jakarta Sans (Clean Modern Luxury Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- GSAP & ScrollTrigger CDN (Primary CDNJS & jsDelivr Fallbacks) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Tailwind Configuration for Luxury Brand Palette & Fonts -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            azurea: {
+              charcoal: '#090D12',
+              dark: '#0D131A',
+              card: '#121922',
+              ocean: '#0E1F2C',
+              ivory: '#F9F8F5',
+              sand: '#E6E0D4',
+              stone: '#C8C2B7',
+              champagne: '#C5A880',
+              champagneHover: '#D4B892',
+              muted: '#8A929A'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          letterSpacing: {
+            widest2: '0.25em',
+            luxury: '0.35em',
+            cinematic: '0.5em',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Luxury Styling & Refinements */
+    :root {
+      --champagne: #C5A880;
+      --charcoal: #090D12;
+    }
+    
+    body {
+      background-color: #090D12;
+      color: #F9F8F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      selection-background-color: #C5A880;
+      selection-color: #090D12;
+    }
+
+    ::selection {
+      background: #C5A880;
+      color: #090D12;
+    }
+
+    /* Smooth Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090D12;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #242F3E;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #C5A880;
+    }
+
+    /* Subtle Film Grain Texture Overlay */
+    .film-grain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 99;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Desktop Custom Cursor */
+    #custom-cursor, #cursor-trail {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  height 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  background-color 0.3s ease, 
+                  border 0.3s ease,
+                  opacity 0.3s ease;
+    }
+    #custom-cursor {
+      width: 8px;
+      height: 8px;
+      background: #C5A880;
+    }
+    #cursor-trail {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(197, 168, 128, 0.35);
+      mix-blend-mode: difference;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: #090D12;
+      font-weight: 600;
+    }
+    #cursor-trail.hover-view {
+      width: 76px;
+      height: 76px;
+      background-color: #F9F8F5;
+      border-color: #F9F8F5;
+      color: #090D12;
+    }
+    #cursor-trail.hover-link {
+      width: 52px;
+      height: 52px;
+      background: rgba(197, 168, 128, 0.15);
+      border-color: #C5A880;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      #custom-cursor, #cursor-trail {
+        display: none !important;
+      }
+    }
+
+    /* Fine hairline borders */
+    .border-luxury {
+      border-color: rgba(197, 168, 128, 0.18);
+    }
+    .border-luxury-subtle {
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Shimmer animation for luxury accents */
+    .shimmer-text {
+      background: linear-gradient(90deg, #F9F8F5 0%, #C5A880 50%, #F9F8F5 100%);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: shine 8s linear infinite;
+    }
+    @keyframes shine {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    /* Clip Path Utilities */
+    .clip-hidden {
+      clip-path: inset(100% 0 0 0);
+    }
+    .clip-revealed {
+      clip-path: inset(0 0 0 0);
+      transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Image zoom hover effect */
+    .img-zoom-container {
+      overflow: hidden;
+    }
+    .img-zoom {
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+    }
+    .img-zoom-container:hover .img-zoom {
+      transform: scale(1.06);
+    }
+  </style>
+</head>
+<body class="bg-azurea-charcoal antialiased relative">
+
+  <!-- Grain Overlay -->
+  <div class="film-grain"></div>
+
+  <!-- Custom Cursor Elements -->
+  <div id="custom-cursor"></div>
+  <div id="cursor-trail"><span id="cursor-text" class="opacity-0"></span></div>
+
+  <div id="cinematic-intro" class="fixed inset-0 z-[9990] bg-[#05070a] flex flex-col items-center justify-center text-center px-6 transition-opacity duration-1000">
+    <!-- Ambient Ocean Light Glow -->
+    <div id="intro-glow" class="absolute w-[600px] h-[600px] rounded-full bg-azurea-ocean/30 blur-[130px] pointer-events-none opacity-0"></div>
+    
+    <!-- Background Island Silhouette that fades in smoothly -->
+    <div id="intro-bg-reveal" class="absolute inset-0 bg-center bg-cover opacity-0 scale-105 pointer-events-none transition-transform duration-[3000ms] ease-out"
+         style="background-image: linear-gradient(to bottom, rgba(5,7,10,0.85), rgba(5,7,10,0.95)), url('https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=2000&q=85');">
+    </div>
+
+    <!-- Central Intro Logo / Sequence -->
+    <div class="relative z-10 flex flex-col items-center max-w-xl">
+      <!-- Thin Line Accent -->
+      <div id="intro-line" class="w-0 h-[1px] bg-azurea-champagne mb-8 opacity-40"></div>
+
+      <!-- Main Brand Wordmark -->
+      <h1 id="intro-brand" class="font-serif text-5xl md:text-7xl font-light tracking-cinematic text-azurea-ivory opacity-0 transform translate-y-4">
+        AZUREA
+      </h1>
+
+      <!-- Subtitle -->
+      <p id="intro-sub" class="text-xs tracking-luxury uppercase text-azurea-champagne mt-3 font-light opacity-0">
+        PRIVATE RESORT &middot; MALDIVES
+      </p>
+
+      <p id="intro-tagline" class="font-serif italic text-azurea-stone/75 text-sm md:text-base mt-4 opacity-0 font-light tracking-wide">
+        &ldquo;Arrive somewhere extraordinary.&rdquo;
+      </p>
+    </div>
+
+    <!-- Skip Intro Button -->
+    <button id="skip-intro-btn" class="absolute bottom-10 z-20 text-[11px] tracking-widest2 uppercase text-azurea-stone/60 hover:text-azurea-champagne transition-colors py-2 px-4 border border-azurea-stone/10 rounded-full hover:border-azurea-champagne/40">
+      Skip Intro
+    </button>
+  </div>
+
+  <header id="main-nav" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 py-6 px-6 md:px-12 flex items-center justify-between">
+    <!-- Brand Logo -->
+    <a href="#" class="group flex items-center space-x-3 cursor-pointer z-50">
+      <span class="font-serif text-2xl md:text-3xl font-light tracking-luxury text-azurea-ivory group-hover:text-azurea-champagne transition-colors">
+        AZUREA
+      </span>
+      <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-azurea-champagne"></span>
+      <span class="hidden sm:inline-block text-[9px] tracking-luxury uppercase text-azurea-stone font-light">
+        MALDIVES
+      </span>
+    </a>
+
+    <!-- Center Navigation Links (Desktop) -->
+    <nav class="hidden lg:flex items-center space-x-9 text-xs tracking-widest2 uppercase font-light text-azurea-ivory/80">
+      <a href="#accommodations" class="hover:text-azurea-champagne transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-azurea-champagne hover:after:w-full after:transition-all">Stay</a>
+      <a href="#interactive-showcase" class="hover:text-azurea-champagne transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-azurea-champagne hover:after:w-full after:transition-all">Villas</a>
+      <a href="#experiences" class="hover:text-azurea-champagne transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-azurea-champagne hover:after:w-full after:transition-all">Experiences</a>
+      <a href="#dining" class="hover:text-azurea-champagne transition-colors py-1 py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-azurea-champagne hover:after:w-full after:transition-all">Dining</a>
+      <a href="#wellness" class="hover:text-azurea-champagne transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-azurea-champagne hover:after:w-full after:transition-all">Wellness</a>
+      <a href="#destination" class="hover:text-azurea-champagne transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-azurea-champagne hover:after:w-full after:transition-all">Destination</a>
+      <a href="#journal" class="hover:text-azurea-champagne transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-azurea-champagne hover:after:w-full after:transition-all">Journal</a>
+    </nav>
+
+    <!-- Right Side CTA and Mobile Menu Toggle -->
+    <div class="flex items-center space-x-6 z-50">
+      <button onclick="openBookingModal()" class="hidden md:inline-flex items-center text-[10px] tracking-widest2 uppercase text-azurea-ivory bg-transparent hover:bg-azurea-champagne hover:text-azurea-charcoal border border-azurea-champagne/60 px-6 py-2.5 rounded-full transition-all duration-300 font-medium">
+        Book Your Stay
+      </button>
+
+      <!-- Hamburger Button (Mobile / Tablet) -->
+      <button id="menu-toggle-btn" aria-label="Toggle Navigation" class="lg:hidden text-azurea-ivory hover:text-azurea-champagne focus:outline-none p-1">
+        <svg id="hamburger-icon" class="w-6 h-6 stroke-current transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.25" d="M4 8h16M4 16h16"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Fullscreen Menu Drawer -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#090D12]/98 backdrop-blur-2xl flex flex-col justify-between px-8 py-24 opacity-0 pointer-events-none transition-all duration-500">
+    <div class="flex flex-col space-y-6 text-center mt-6">
+      <a href="#accommodations" onclick="toggleMobileMenu()" class="mobile-nav-link font-serif text-3xl text-azurea-ivory hover:text-azurea-champagne transition-colors">Stay & Villas</a>
+      <a href="#experiences" onclick="toggleMobileMenu()" class="mobile-nav-link font-serif text-3xl text-azurea-ivory hover:text-azurea-champagne transition-colors">Experiences</a>
+      <a href="#dining" onclick="toggleMobileMenu()" class="mobile-nav-link font-serif text-3xl text-azurea-ivory hover:text-azurea-champagne transition-colors">Dining at Mare</a>
+      <a href="#wellness" onclick="toggleMobileMenu()" class="mobile-nav-link font-serif text-3xl text-azurea-ivory hover:text-azurea-champagne transition-colors">Private Wellness</a>
+      <a href="#destination" onclick="toggleMobileMenu()" class="mobile-nav-link font-serif text-3xl text-azurea-ivory hover:text-azurea-champagne transition-colors">The Island</a>
+      <a href="#journal" onclick="toggleMobileMenu()" class="mobile-nav-link font-serif text-3xl text-azurea-ivory hover:text-azurea-champagne transition-colors">Azurea Journal</a>
+      <a href="#reservation" onclick="toggleMobileMenu()" class="mobile-nav-link font-serif text-3xl text-azurea-champagne transition-colors">Reserve Villa</a>
+    </div>
+
+    <div class="text-center space-y-4">
+      <button onclick="toggleMobileMenu(); openBookingModal()" class="w-full py-3.5 bg-azurea-champagne text-azurea-charcoal font-medium text-xs tracking-widest2 uppercase rounded-full">
+        Reserve Your Experience
+      </button>
+      <p class="text-[11px] text-azurea-muted tracking-widest2 uppercase font-light">
+        Direct Inquiries: +960 680 9100
+      </p>
+    </div>
+  </div>
+
+  <section id="hero" class="relative w-full h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+    <!-- Hero Background Image with Subtle Ken Burns & Parallax -->
+    <div id="hero-bg" class="absolute inset-0 w-full h-full bg-cover bg-center transform scale-110 pointer-events-none"
+         style="background-image: linear-gradient(to top, rgba(9,13,18,0.9) 0%, rgba(9,13,18,0.4) 40%, rgba(9,13,18,0.3) 100%), url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=2400&q=90');">
+    </div>
+
+    <!-- Subtle Radial Vignette for Editorial Depth -->
+    <div class="absolute inset-0 bg-radial-gradient from-transparent via-azurea-charcoal/30 to-azurea-charcoal pointer-events-none"></div>
+
+    <!-- Hero Content Container -->
+    <div class="relative z-10 max-w-5xl mx-auto px-6 text-center flex flex-col items-center pt-16">
+      
+      <!-- Top Small Tag -->
+      <div id="hero-tag" class="inline-flex items-center space-x-3 px-4 py-1.5 rounded-full border border-azurea-champagne/30 bg-azurea-charcoal/40 backdrop-blur-md mb-8">
+        <span class="w-1.5 h-1.5 rounded-full bg-azurea-champagne animate-pulse"></span>
+        <span class="text-[10px] tracking-cinematic uppercase text-azurea-ivory/90 font-light">
+          AZUREA PRIVATE RESORT &middot; MALDIVES
+        </span>
+      </div>
+
+      <!-- Main Headline (Editorial Split Style) -->
+      <h1 id="hero-title" class="font-serif text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-light text-azurea-ivory leading-[0.95] tracking-tight uppercase mb-6">
+        ARRIVE<br/>
+        <span class="italic font-light text-azurea-sand font-serif lowercase tracking-normal">somewhere</span><br/>
+        EXTRAORDINARY.
+      </h1>
+
+      <!-- Refined Description -->
+      <p id="hero-desc" class="max-w-xl mx-auto text-azurea-stone font-light text-sm md:text-base leading-relaxed mb-10">
+        An intimate sanctuary shaped by turquoise water, sculptural architecture, and instinctive, discreet hospitality.
+      </p>
+
+      <!-- Action Buttons -->
+      <div id="hero-buttons" class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+        <a href="#accommodations" class="w-full sm:w-auto px-8 py-3.5 bg-azurea-champagne hover:bg-azurea-champagneHover text-azurea-charcoal text-xs tracking-widest2 uppercase font-medium rounded-full shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+          Explore Azurea
+        </a>
+        <button onclick="openBookingModal()" class="w-full sm:w-auto px-8 py-3.5 bg-azurea-charcoal/60 hover:bg-azurea-charcoal text-azurea-ivory border border-azurea-ivory/20 hover:border-azurea-champagne/60 text-xs tracking-widest2 uppercase font-light rounded-full backdrop-blur-md transition-all duration-300">
+          Book Your Stay
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Bottom Metadata Bar & Scroll Indicator -->
+    <div class="absolute bottom-8 left-0 w-full px-6 md:px-12 flex flex-col md:flex-row items-center justify-between text-azurea-stone/70 text-[10px] tracking-widest2 uppercase font-light pointer-events-none">
+      <div class="hidden md:flex items-center space-x-8">
+        <span>Private Atoll Island</span>
+        <span class="w-1 h-1 rounded-full bg-azurea-champagne/50"></span>
+        <span>24 Ocean Villas</span>
+        <span class="w-1 h-1 rounded-full bg-azurea-champagne/50"></span>
+        <span>24/7 Dedicated Concierge</span>
+      </div>
+
+      <!-- Animated Scroll Down Cue -->
+      <a href="#booking-bar" class="pointer-events-auto flex flex-col items-center group cursor-pointer my-4 md:my-0">
+        <span class="text-[9px] tracking-widest2 text-azurea-champagne/80 group-hover:text-azurea-champagne mb-2 transition-colors">SCROLL TO DISCOVER</span>
+        <div class="w-[1px] h-9 bg-azurea-ivory/20 relative overflow-hidden">
+          <div class="w-full h-1/2 bg-azurea-champagne absolute top-0 -translate-y-full animate-[scrollCue_2s_infinite]"></div>
+        </div>
+      </a>
+
+      <div class="hidden md:block">
+        <span>4°11'02.4"N &middot; 73°30'36.0"E</span>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @keyframes scrollCue {
+      0% { transform: translateY(-100%); }
+      50% { transform: translateY(100%); }
+      100% { transform: translateY(200%); }
+    }
+  </style>
+
+  <section id="booking-bar" class="relative z-30 -mt-10 max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="bg-azurea-dark/90 backdrop-blur-xl border border-azurea-champagne/25 p-5 md:p-7 rounded-2xl shadow-2xl">
+      <form onsubmit="handleQuickCheck(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-center">
+        
+        <!-- Field 1: Check In -->
+        <div class="flex flex-col px-3 py-2 border-b sm:border-b-0 sm:border-r border-azurea-stone/15 group">
+          <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne font-medium">Check-In</label>
+          <input type="date" value="2026-11-12" class="bg-transparent text-azurea-ivory text-xs font-light tracking-wide focus:outline-none pt-1 cursor-pointer">
+        </div>
+
+        <!-- Field 2: Check Out -->
+        <div class="flex flex-col px-3 py-2 border-b sm:border-b-0 lg:border-r border-azurea-stone/15 group">
+          <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne font-medium">Check-Out</label>
+          <input type="date" value="2026-11-18" class="bg-transparent text-azurea-ivory text-xs font-light tracking-wide focus:outline-none pt-1 cursor-pointer">
+        </div>
+
+        <!-- Field 3: Guests -->
+        <div class="flex flex-col px-3 py-2 border-b sm:border-b-0 sm:border-r border-azurea-stone/15 group">
+          <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne font-medium">Guests</label>
+          <select class="bg-transparent text-azurea-ivory text-xs font-light tracking-wide focus:outline-none pt-1 cursor-pointer">
+            <option value="2" class="bg-azurea-dark text-azurea-ivory">2 Adults &middot; Romantic</option>
+            <option value="1" class="bg-azurea-dark text-azurea-ivory">1 Adult &middot; Solo Retreat</option>
+            <option value="4" class="bg-azurea-dark text-azurea-ivory">4 Guests &middot; Family/Group</option>
+            <option value="6" class="bg-azurea-dark text-azurea-ivory">6+ Guests &middot; Private Island Villa</option>
+          </select>
+        </div>
+
+        <!-- Field 4: Villa Category -->
+        <div class="flex flex-col px-3 py-2 border-b sm:border-b-0 group">
+          <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne font-medium">Villa Tier</label>
+          <select class="bg-transparent text-azurea-ivory text-xs font-light tracking-wide focus:outline-none pt-1 cursor-pointer">
+            <option value="ocean" class="bg-azurea-dark text-azurea-ivory">Ocean Water Villa</option>
+            <option value="sunset" class="bg-azurea-dark text-azurea-ivory">Sunset Residence</option>
+            <option value="garden" class="bg-azurea-dark text-azurea-ivory">Garden Pavilion</option>
+            <option value="presidential" class="bg-azurea-dark text-azurea-ivory">Presidential Atoll Estate</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-span-1 sm:col-span-2 lg:col-span-1 mt-2 sm:mt-0">
+          <button type="submit" class="w-full h-full py-4 px-4 bg-azurea-champagne hover:bg-azurea-champagneHover text-azurea-charcoal font-semibold text-xs tracking-widest2 uppercase rounded-xl transition-all duration-300 flex items-center justify-center space-x-2 group shadow-md">
+            <span>Check Availability</span>
+            <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+  <section id="brand-story" class="py-28 md:py-40 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      
+      <!-- Left Column: Editorial Manifesto -->
+      <div class="lg:col-span-6 space-y-8">
+        <div class="space-y-3">
+          <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">The Philosophy</span>
+          <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl font-light text-azurea-ivory leading-[1.08]">
+            NOT JUST A STAY.<br/>
+            <span class="italic font-light text-azurea-stone font-serif">A sanctuary</span><br/>
+            TO REMEMBER.
+          </h2>
+        </div>
+
+        <p class="text-azurea-stone font-light text-base md:text-lg leading-relaxed">
+          Azurea was imagined for discerning travelers seeking tranquility beyond the reach of the everyday. An untouched private atoll where minimalist timber architecture, turquoise currents, and intuitive, bespoke service exist in calm equilibrium.
+        </p>
+
+        <p class="text-azurea-muted text-sm leading-relaxed font-light">
+          Here, time bends to the movement of the tides. Every villa is oriented to celebrate privacy and uninterrupted ocean horizons, allowing you to immerse completely in the quiet poetry of island living.
+        </p>
+
+        <!-- Brand Details List -->
+        <div class="grid grid-cols-2 gap-6 pt-4 border-t border-azurea-stone/15">
+          <div>
+            <h4 class="font-serif text-2xl text-azurea-champagne">Zero Distractions</h4>
+            <p class="text-xs text-azurea-stone/80 mt-1 font-light">Completely isolated lagoon surrounded by vibrant coral reefs.</p>
+          </div>
+          <div>
+            <h4 class="font-serif text-2xl text-azurea-champagne">Artisanal Hospitality</h4>
+            <p class="text-xs text-azurea-stone/80 mt-1 font-light">A 3:1 staff-to-guest ratio offering unobtrusive private care.</p>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <a href="#experiences" class="inline-flex items-center space-x-3 text-xs uppercase tracking-widest2 text-azurea-ivory hover:text-azurea-champagne transition-colors group">
+            <span class="border-b border-azurea-champagne pb-1">Read The Full Story</span>
+            <svg class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Editorial Visual Showcase with Frame & Parallax -->
+      <div class="lg:col-span-6 relative">
+        <!-- Offset Architectural Accent Box -->
+        <div class="absolute -top-6 -left-6 w-full h-full border border-azurea-champagne/20 rounded-2xl hidden sm:block"></div>
+        
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl img-zoom-container">
+          <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1400&q=85" 
+               alt="Azurea Private Resort Architecture" 
+               class="w-full h-[520px] object-cover img-zoom" 
+               loading="lazy">
+          
+          <div class="absolute bottom-0 inset-x-0 p-8 bg-gradient-to-t from-azurea-charcoal via-azurea-charcoal/40 to-transparent">
+            <span class="text-[10px] tracking-widest2 uppercase text-azurea-champagne block">Architecture & Landscape</span>
+            <p class="font-serif text-xl italic text-azurea-ivory mt-1">Conceived to touch the land lightly and endure gracefully.</p>
+          </div>
+        </div>
+
+        <!-- Floating Badge -->
+        <div class="absolute -bottom-6 -right-4 sm:right-6 bg-azurea-dark/95 border border-azurea-champagne/40 px-6 py-4 rounded-xl shadow-2xl backdrop-blur-md">
+          <div class="text-xs uppercase tracking-widest2 text-azurea-champagne font-medium">Private Sanctuary</div>
+          <div class="font-serif text-2xl text-azurea-ivory mt-0.5">100% Secluded</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="accommodations" class="py-24 bg-azurea-dark/60 border-t border-b border-azurea-stone/10">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+        <div>
+          <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">Accommodations</span>
+          <h2 class="font-serif text-4xl sm:text-5xl font-light text-azurea-ivory mt-2">YOUR PRIVATE RETREAT</h2>
+          <p class="text-azurea-stone font-light text-sm md:text-base mt-2 max-w-lg">
+            Spaces sculpted around light, pure air, and the gentle cadence of the Indian Ocean.
+          </p>
+        </div>
+        <div class="mt-6 md:mt-0">
+          <a href="#interactive-showcase" class="text-xs uppercase tracking-widest2 text-azurea-champagne hover:text-azurea-ivory transition-colors flex items-center space-x-2">
+            <span>Explore Interactive Suite Tour</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Villa Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <!-- Villa 1 -->
+        <div class="group bg-azurea-card rounded-2xl overflow-hidden border border-azurea-stone/15 hover:border-azurea-champagne/40 transition-all duration-500 flex flex-col justify-between">
+          <div class="relative overflow-hidden h-72">
+            <img src="https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&w=900&q=80" 
+                 alt="Ocean Villa" 
+                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+            <div class="absolute top-4 right-4 bg-azurea-charcoal/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] tracking-wider text-azurea-champagne border border-azurea-champagne/20">
+              Overwater
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors">Ocean Villa</h3>
+              <p class="text-azurea-stone text-xs font-light mt-2 line-clamp-2">Suspended directly over turquoise crystalline shallows with direct reef stairs and open-air net hammocks.</p>
+              
+              <!-- Specs -->
+              <div class="grid grid-cols-3 gap-2 py-4 my-4 border-y border-azurea-stone/10 text-center text-xs text-azurea-stone">
+                <div><span class="block text-azurea-ivory font-medium">2</span>Guests</div>
+                <div><span class="block text-azurea-ivory font-medium">1</span>Bedroom</div>
+                <div><span class="block text-azurea-ivory font-medium">185 m²</span>Interior</div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <div>
+                <span class="text-[10px] text-azurea-muted uppercase tracking-wider block">From</span>
+                <span class="font-serif text-xl text-azurea-ivory">$1,250 <span class="text-xs font-sans text-azurea-stone font-light">/ night</span></span>
+              </div>
+              <button onclick="openBookingModal('Ocean Villa')" class="px-4 py-2 text-[10px] tracking-widest2 uppercase bg-transparent hover:bg-azurea-champagne text-azurea-champagne hover:text-azurea-charcoal border border-azurea-champagne/40 rounded-full transition-all">
+                Reserve
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa 2 -->
+        <div class="group bg-azurea-card rounded-2xl overflow-hidden border border-azurea-stone/15 hover:border-azurea-champagne/40 transition-all duration-500 flex flex-col justify-between">
+          <div class="relative overflow-hidden h-72">
+            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=900&q=80" 
+                 alt="Sunset Residence" 
+                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+            <div class="absolute top-4 right-4 bg-azurea-charcoal/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] tracking-wider text-azurea-champagne border border-azurea-champagne/20">
+              Sunset Facing
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors">Sunset Residence</h3>
+              <p class="text-azurea-stone text-xs font-light mt-2 line-clamp-2">Featuring an extended private infinity plunge pool and dedicated sunset contemplation pavilion.</p>
+              
+              <!-- Specs -->
+              <div class="grid grid-cols-3 gap-2 py-4 my-4 border-y border-azurea-stone/10 text-center text-xs text-azurea-stone">
+                <div><span class="block text-azurea-ivory font-medium">4</span>Guests</div>
+                <div><span class="block text-azurea-ivory font-medium">2</span>Bedrooms</div>
+                <div><span class="block text-azurea-ivory font-medium">270 m²</span>Interior</div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <div>
+                <span class="text-[10px] text-azurea-muted uppercase tracking-wider block">From</span>
+                <span class="font-serif text-xl text-azurea-ivory">$2,400 <span class="text-xs font-sans text-azurea-stone font-light">/ night</span></span>
+              </div>
+              <button onclick="openBookingModal('Sunset Residence')" class="px-4 py-2 text-[10px] tracking-widest2 uppercase bg-transparent hover:bg-azurea-champagne text-azurea-champagne hover:text-azurea-charcoal border border-azurea-champagne/40 rounded-full transition-all">
+                Reserve
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa 3 -->
+        <div class="group bg-azurea-card rounded-2xl overflow-hidden border border-azurea-stone/15 hover:border-azurea-champagne/40 transition-all duration-500 flex flex-col justify-between">
+          <div class="relative overflow-hidden h-72">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80" 
+                 alt="Garden Pavilion" 
+                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+            <div class="absolute top-4 right-4 bg-azurea-charcoal/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] tracking-wider text-azurea-champagne border border-azurea-champagne/20">
+              Beachfront
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors">Garden Pavilion</h3>
+              <p class="text-azurea-stone text-xs font-light mt-2 line-clamp-2">Surrounded by ancient banyan palms with private beachfront access and outdoor open-sky stone shower.</p>
+              
+              <!-- Specs -->
+              <div class="grid grid-cols-3 gap-2 py-4 my-4 border-y border-azurea-stone/10 text-center text-xs text-azurea-stone">
+                <div><span class="block text-azurea-ivory font-medium">2</span>Guests</div>
+                <div><span class="block text-azurea-ivory font-medium">1</span>Bedroom</div>
+                <div><span class="block text-azurea-ivory font-medium">160 m²</span>Interior</div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <div>
+                <span class="text-[10px] text-azurea-muted uppercase tracking-wider block">From</span>
+                <span class="font-serif text-xl text-azurea-ivory">$980 <span class="text-xs font-sans text-azurea-stone font-light">/ night</span></span>
+              </div>
+              <button onclick="openBookingModal('Garden Pavilion')" class="px-4 py-2 text-[10px] tracking-widest2 uppercase bg-transparent hover:bg-azurea-champagne text-azurea-champagne hover:text-azurea-charcoal border border-azurea-champagne/40 rounded-full transition-all">
+                Reserve
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa 4 -->
+        <div class="group bg-azurea-card rounded-2xl overflow-hidden border border-azurea-stone/15 hover:border-azurea-champagne/40 transition-all duration-500 flex flex-col justify-between">
+          <div class="relative overflow-hidden h-72">
+            <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=80" 
+                 alt="Presidential Villa" 
+                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+            <div class="absolute top-4 right-4 bg-azurea-charcoal/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] tracking-wider text-azurea-champagne border border-azurea-champagne/20">
+              Private Estate
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors">Presidential Villa</h3>
+              <p class="text-azurea-stone text-xs font-light mt-2 line-clamp-2">Our flagship compound on the secluded tip of the atoll with private chef kitchen and dedicated butler.</p>
+              
+              <!-- Specs -->
+              <div class="grid grid-cols-3 gap-2 py-4 my-4 border-y border-azurea-stone/10 text-center text-xs text-azurea-stone">
+                <div><span class="block text-azurea-ivory font-medium">8</span>Guests</div>
+                <div><span class="block text-azurea-ivory font-medium">4</span>Bedrooms</div>
+                <div><span class="block text-azurea-ivory font-medium">540 m²</span>Interior</div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <div>
+                <span class="text-[10px] text-azurea-muted uppercase tracking-wider block">From</span>
+                <span class="font-serif text-xl text-azurea-ivory">$4,800 <span class="text-xs font-sans text-azurea-stone font-light">/ night</span></span>
+              </div>
+              <button onclick="openBookingModal('Presidential Villa')" class="px-4 py-2 text-[10px] tracking-widest2 uppercase bg-transparent hover:bg-azurea-champagne text-azurea-champagne hover:text-azurea-charcoal border border-azurea-champagne/40 rounded-full transition-all">
+                Reserve
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section id="interactive-showcase" class="py-28 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="border border-azurea-champagne/30 rounded-3xl p-6 sm:p-10 lg:p-14 bg-azurea-dark/70 backdrop-blur-md">
+      
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10 pb-8 border-b border-azurea-stone/15">
+        <div>
+          <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">Interactive Villa Experience</span>
+          <h2 class="font-serif text-3xl sm:text-5xl font-light text-azurea-ivory mt-1">The Ocean Sanctuary Perspective</h2>
+        </div>
+
+        <!-- Perspective Selector Tabs -->
+        <div class="inline-flex p-1 bg-azurea-charcoal rounded-full border border-azurea-stone/20 self-start lg:self-center">
+          <button onclick="switchRoomTab('overview')" id="tab-btn-overview" class="room-tab-btn active px-5 py-2 rounded-full text-xs tracking-wider uppercase transition-all bg-azurea-champagne text-azurea-charcoal font-semibold">
+            Overview
+          </button>
+          <button onclick="switchRoomTab('interior')" id="tab-btn-interior" class="room-tab-btn px-5 py-2 rounded-full text-xs tracking-wider uppercase transition-all text-azurea-stone hover:text-azurea-ivory">
+            Interior
+          </button>
+          <button onclick="switchRoomTab('view')" id="tab-btn-view" class="room-tab-btn px-5 py-2 rounded-full text-xs tracking-wider uppercase transition-all text-azurea-stone hover:text-azurea-ivory">
+            View
+          </button>
+          <button onclick="switchRoomTab('amenities')" id="tab-btn-amenities" class="room-tab-btn px-5 py-2 rounded-full text-xs tracking-wider uppercase transition-all text-azurea-stone hover:text-azurea-ivory">
+            Amenities
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive Tab Body -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <!-- Interactive Image Display with Crossfade -->
+        <div class="lg:col-span-7 relative rounded-2xl overflow-hidden h-[420px] sm:h-[480px] shadow-2xl bg-azurea-charcoal">
+          <img id="room-interactive-img" 
+               src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=85" 
+               alt="Interactive Suite View" 
+               class="w-full h-full object-cover transition-opacity duration-700 ease-in-out">
+          
+          <div class="absolute bottom-4 left-4 bg-azurea-charcoal/80 backdrop-blur-md px-4 py-2 rounded-xl border border-azurea-stone/20 text-xs">
+            <span id="room-badge-category" class="text-azurea-champagne font-medium uppercase tracking-wider text-[10px]">Living Masterwork</span>
+            <span class="block text-azurea-ivory font-serif" id="room-badge-caption">Lagoon Overwater Deck</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Information Panel -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="space-y-2">
+            <span id="room-content-subtitle" class="text-[11px] tracking-widest2 uppercase text-azurea-champagne">Signature Overwater Suite</span>
+            <h3 id="room-content-title" class="font-serif text-3xl sm:text-4xl text-azurea-ivory leading-snug">
+              Unfiltered Horizons Above the Coral Reef
+            </h3>
+          </div>
+
+          <p id="room-content-desc" class="text-azurea-stone font-light text-sm sm:text-base leading-relaxed">
+            Constructed with sustainably harvested teak and brushed bronze fixtures, the Master Ocean Suite extends into the Maldivian horizon with continuous sliding glass curtains that vanish into the walls.
+          </p>
+
+          <div id="room-content-features" class="space-y-3 pt-2">
+            <div class="flex items-center space-x-3 text-xs text-azurea-stone font-light">
+              <span class="w-1.5 h-1.5 rounded-full bg-azurea-champagne"></span>
+              <span>Floor-to-ceiling glass wall opening directly to private deck</span>
+            </div>
+            <div class="flex items-center space-x-3 text-xs text-azurea-stone font-light">
+              <span class="w-1.5 h-1.5 rounded-full bg-azurea-champagne"></span>
+              <span>Sunken ocean hammock suspended above turquoise waters</span>
+            </div>
+            <div class="flex items-center space-x-3 text-xs text-azurea-stone font-light">
+              <span class="w-1.5 h-1.5 rounded-full bg-azurea-champagne"></span>
+              <span>Freestanding Italian marble soaking bathtub with sunset orientation</span>
+            </div>
+          </div>
+
+          <div class="pt-4 flex items-center space-x-4">
+            <button onclick="openBookingModal('Ocean Sanctuary Suite')" class="px-7 py-3 bg-azurea-champagne hover:bg-azurea-champagneHover text-azurea-charcoal text-xs tracking-widest2 uppercase font-medium rounded-full transition-all">
+              Book This Suite
+            </button>
+            <span class="text-xs text-azurea-stone/60">Complimentary seaplane transfer included</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="destination" class="relative py-36 md:py-48 overflow-hidden">
+    <!-- Background Image with Zoom on Scroll -->
+    <div id="destination-parallax-bg" class="absolute inset-0 w-full h-full bg-cover bg-center pointer-events-none transform scale-110"
+         style="background-image: linear-gradient(to bottom, rgba(9,13,18,0.7), rgba(9,13,18,0.85)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=85');">
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light block mb-4">
+        The Atoll Archipelago
+      </span>
+
+      <h2 class="font-serif text-5xl sm:text-6xl md:text-8xl font-light text-azurea-ivory leading-tight uppercase">
+        THE ISLAND<br/>
+        <span class="italic font-light text-azurea-sand lowercase font-serif tracking-normal">is entirely</span><br/>
+        YOURS.
+      </h2>
+
+      <p class="text-azurea-stone font-light text-base md:text-xl max-w-xl mx-auto mt-6 leading-relaxed">
+        Private beaches. Endless turquoise horizons. Nothing between you and the boundless ocean.
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#experiences" class="px-8 py-3.5 bg-azurea-champagne text-azurea-charcoal text-xs tracking-widest2 uppercase font-medium rounded-full hover:bg-azurea-champagneHover transition-colors">
+          Discover The Island
+        </a>
+        <a href="#journey-timeline" class="px-8 py-3.5 bg-transparent border border-azurea-stone/30 hover:border-azurea-champagne text-azurea-ivory text-xs tracking-widest2 uppercase font-light rounded-full transition-colors">
+          View Arrival Route
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiences" class="py-28 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">Curated Itineraries</span>
+      <h2 class="font-serif text-4xl sm:text-5xl font-light text-azurea-ivory mt-2">EXTRAORDINARY EXPERIENCES</h2>
+      <p class="text-azurea-stone font-light text-sm md:text-base mt-3">
+        Tailored exclusively for each guest, from serene sunrise meditations to chartered marine expeditions.
+      </p>
+    </div>
+
+    <!-- 6 Experience Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Card 1 -->
+      <div class="group relative rounded-2xl overflow-hidden h-96 cursor-pointer bg-azurea-dark">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" 
+             alt="Private Sunset Sail" 
+             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-azurea-charcoal via-azurea-charcoal/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
+        <div class="absolute inset-0 p-8 flex flex-col justify-end transform transition-transform">
+          <span class="text-[10px] tracking-luxury uppercase text-azurea-champagne">Marine &middot; Bespoke</span>
+          <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1">Private Sunset Sail</h3>
+          <p class="text-xs text-azurea-stone font-light mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            Charted classic yacht cruising along the outer reef accompanied by vintage champagne and canapés.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="group relative rounded-2xl overflow-hidden h-96 cursor-pointer bg-azurea-dark">
+        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" 
+             alt="Deep Sea Reef Diving" 
+             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-azurea-charcoal via-azurea-charcoal/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
+        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+          <span class="text-[10px] tracking-luxury uppercase text-azurea-champagne">Expedition &middot; PADI Master</span>
+          <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1">Deep Sea Reef Diving</h3>
+          <p class="text-xs text-azurea-stone font-light mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            Encounter manta rays, sea turtles, and untouched submarine caves with our resident marine biologist.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="group relative rounded-2xl overflow-hidden h-96 cursor-pointer bg-azurea-dark">
+        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80" 
+             alt="Sunrise Yoga Pavilion" 
+             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-azurea-charcoal via-azurea-charcoal/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
+        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+          <span class="text-[10px] tracking-luxury uppercase text-azurea-champagne">Wellness &middot; Mindfulness</span>
+          <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1">Sunrise Yoga Pavilion</h3>
+          <p class="text-xs text-azurea-stone font-light mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            Open-air overwater pranayama and vinyasa sessions guided by visiting international wellness masters.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="group relative rounded-2xl overflow-hidden h-96 cursor-pointer bg-azurea-dark">
+        <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80" 
+             alt="Private Sandbank Dinner" 
+             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-azurea-charcoal via-azurea-charcoal/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
+        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+          <span class="text-[10px] tracking-luxury uppercase text-azurea-champagne">Dining &middot; Private</span>
+          <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1">Sandbank Starlight Dinner</h3>
+          <p class="text-xs text-azurea-stone font-light mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            A candle-illuminated dinner on a deserted sandbank surrounded by the tranquil sound of the tide.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="group relative rounded-2xl overflow-hidden h-96 cursor-pointer bg-azurea-dark">
+        <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80" 
+             alt="Helicopter Excursion" 
+             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-azurea-charcoal via-azurea-charcoal/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
+        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+          <span class="text-[10px] tracking-luxury uppercase text-azurea-champagne">Aviation &middot; Discovery</span>
+          <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1">Aerial Atoll Safari</h3>
+          <p class="text-xs text-azurea-stone font-light mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            Twin-turbine aerial journey overlooking pristine sandbars, barrier reefs, and hidden lagoons.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="group relative rounded-2xl overflow-hidden h-96 cursor-pointer bg-azurea-dark">
+        <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80" 
+             alt="Sommelier Wine Vault" 
+             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-azurea-charcoal via-azurea-charcoal/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity"></div>
+        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+          <span class="text-[10px] tracking-luxury uppercase text-azurea-champagne">Enology &middot; Private Cellar</span>
+          <h3 class="font-serif text-2xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1">Subterranean Cellar Tasting</h3>
+          <p class="text-xs text-azurea-stone font-light mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            Over 1,400 rare vintages curated from Grand Cru estates, paired with artisanal cheeses.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="wellness" class="py-28 bg-azurea-dark/80 border-t border-b border-azurea-stone/10">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <!-- Left: Editorial Headline & Timeline -->
+        <div class="lg:col-span-5 space-y-8">
+          <div>
+            <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">The Azurea Sanctuary Spa</span>
+            <h2 class="font-serif text-4xl sm:text-5xl font-light text-azurea-ivory leading-tight mt-2">
+              RESTORE.<br/>
+              RESET.<br/>
+              <span class="italic text-azurea-stone font-serif">RECONNECT.</span>
+            </h2>
+            <p class="text-azurea-stone font-light text-sm mt-4 leading-relaxed">
+              Rooted in ancient Eastern healing practices and modern restorative science, our holistic therapies harmonize mind, body, and spirit in private overwater treatment suites.
+            </p>
+          </div>
+
+          <!-- Connected Vertical Pathway Indicator -->
+          <div class="relative pl-8 space-y-8 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-[1px] before:bg-azurea-champagne/30">
+            
+            <div class="relative">
+              <span class="absolute -left-8 top-1.5 w-3 h-3 rounded-full bg-azurea-champagne border-2 border-azurea-charcoal"></span>
+              <h4 class="font-serif text-xl text-azurea-ivory">Overwater Ayurvedic Suites</h4>
+              <p class="text-xs text-azurea-stone/80 mt-1 font-light">Glass bottom viewing panels beneath your massage bed looking into living corals.</p>
+            </div>
+
+            <div class="relative">
+              <span class="absolute -left-8 top-1.5 w-3 h-3 rounded-full bg-azurea-champagne border-2 border-azurea-charcoal"></span>
+              <h4 class="font-serif text-xl text-azurea-ivory">Sound Frequency Immersion</h4>
+              <p class="text-xs text-azurea-stone/80 mt-1 font-light">Tibetan singing bowl resonance sessions in an acoustic bamboo pavilion.</p>
+            </div>
+
+            <div class="relative">
+              <span class="absolute -left-8 top-1.5 w-3 h-3 rounded-full bg-azurea-champagne border-2 border-azurea-charcoal"></span>
+              <h4 class="font-serif text-xl text-azurea-ivory">Bespoke Thermal Hydrotherapy</h4>
+              <p class="text-xs text-azurea-stone/80 mt-1 font-light">Cold plunge mineral pools, volcanic stone sauna, and herbal steam baths.</p>
+            </div>
+
+          </div>
+
+          <div>
+            <button onclick="openBookingModal('Wellness Retreat Consultation')" class="px-7 py-3 border border-azurea-champagne text-azurea-champagne hover:bg-azurea-champagne hover:text-azurea-charcoal text-xs tracking-widest2 uppercase font-medium rounded-full transition-all">
+              Request Spa Consultation
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Peaceful Spa Imagery with Floating Cards -->
+        <div class="lg:col-span-7 relative">
+          <div class="rounded-2xl overflow-hidden shadow-2xl">
+            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1400&q=85" 
+                 alt="Azurea Luxury Spa" 
+                 class="w-full h-[520px] object-cover" loading="lazy">
+          </div>
+
+          <div class="absolute -bottom-6 -left-6 sm:bottom-6 sm:left-6 bg-azurea-charcoal/90 backdrop-blur-md p-6 rounded-2xl border border-azurea-champagne/30 max-w-xs shadow-2xl">
+            <div class="flex items-center space-x-2 text-azurea-champagne mb-1">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span class="text-[10px] uppercase tracking-widest2 font-semibold">World Spa Awards</span>
+            </div>
+            <p class="font-serif text-base text-azurea-ivory">Recognized as the Indian Ocean's Premier Holistic Sanctuary.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="dining" class="py-28 px-6 md:px-12 max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">Gastronomy</span>
+      <h2 class="font-serif text-4xl sm:text-5xl font-light text-azurea-ivory mt-2">THE TASTE OF AZUREA</h2>
+      <p class="text-azurea-stone font-light text-sm md:text-base mt-2">
+        Ocean-to-table culinary artistry celebrating native Maldivian seafood, Mediterranean finesse, and biodynamic harvests.
+      </p>
+    </div>
+
+    <!-- Signature Restaurant Feature 'MARE' -->
+    <div class="relative rounded-3xl overflow-hidden border border-azurea-stone/20 bg-azurea-dark mb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 items-center">
+        <!-- Photo -->
+        <div class="lg:col-span-7 h-80 sm:h-[480px] relative overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=85" 
+               alt="Mare Restaurant" 
+               class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent to-azurea-dark/80 hidden lg:block"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="lg:col-span-5 p-8 sm:p-12 space-y-6">
+          <div class="inline-block px-3 py-1 bg-azurea-champagne/15 border border-azurea-champagne/30 rounded-full text-[10px] tracking-widest2 uppercase text-azurea-champagne">
+            Signature Overwater Dining
+          </div>
+
+          <div>
+            <h3 class="font-serif text-4xl sm:text-5xl text-azurea-ivory font-light">MARE</h3>
+            <p class="font-serif italic text-azurea-stone text-lg mt-1">&ldquo;The ocean, served.&rdquo;</p>
+          </div>
+
+          <p class="text-azurea-stone font-light text-sm leading-relaxed">
+            Perched over our southern lagoon reef, Mare presents contemporary coastal cuisine curated by Michelin-decorated Chef Matteo Vane. Handcrafted pasta, wild-caught yellowfin tuna, and organic herbs from our island garden.
+          </p>
+
+          <div class="space-y-2 border-t border-azurea-stone/15 pt-4 text-xs text-azurea-stone/80">
+            <div class="flex justify-between">
+              <span class="text-azurea-ivory">Atmosphere:</span>
+              <span>Open Ocean Cantilever Deck</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-azurea-ivory">Hours:</span>
+              <span>Dinner 18:30 – 23:00 &middot; Reservations Required</span>
+            </div>
+          </div>
+
+          <div class="pt-2 flex items-center space-x-4">
+            <button onclick="toggleMenuDrawer()" class="px-6 py-3 bg-azurea-champagne hover:bg-azurea-champagneHover text-azurea-charcoal text-xs tracking-widest2 uppercase font-medium rounded-full transition-all">
+              View Tasting Menu
+            </button>
+            <button onclick="openBookingModal('Mare Dinner Reservation')" class="px-6 py-3 border border-azurea-stone/30 hover:border-azurea-champagne text-azurea-ivory text-xs tracking-widest2 uppercase font-light rounded-full transition-all">
+              Reserve Table
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dining Venues Trio Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="p-6 rounded-2xl bg-azurea-card border border-azurea-stone/15">
+        <h4 class="font-serif text-2xl text-azurea-ivory">The Palms Bar & Lounge</h4>
+        <p class="text-xs text-azurea-stone font-light mt-2">Sunken lounge tables nestled directly into white sand serving cold-pressed botanicals and rare rums.</p>
+        <span class="text-[10px] text-azurea-champagne uppercase tracking-wider block mt-4">11:00 AM – Late Night</span>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-azurea-card border border-azurea-stone/15">
+        <h4 class="font-serif text-2xl text-azurea-ivory">In-Villa Degustation</h4>
+        <p class="text-xs text-azurea-stone font-light mt-2">Your dedicated chef and sommelier cook bespoke 7-course multi-sensory meals on your private deck.</p>
+        <span class="text-[10px] text-azurea-champagne uppercase tracking-wider block mt-4">By Bespoke Request</span>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-azurea-card border border-azurea-stone/15">
+        <h4 class="font-serif text-2xl text-azurea-ivory">Lagoon Raw Bar</h4>
+        <p class="text-xs text-azurea-stone font-light mt-2">Sashimi, oysters, and cold-smoked catch sourced within 6 miles, prepared fresh under open sky.</p>
+        <span class="text-[10px] text-azurea-champagne uppercase tracking-wider block mt-4">12:00 PM – 16:30 PM</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Tasting Menu Drawer / Modal -->
+  <div id="menu-drawer" class="fixed inset-0 z-50 bg-azurea-charcoal/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-azurea-dark border border-azurea-champagne/40 rounded-2xl max-w-lg w-full p-8 max-h-[90vh] overflow-y-auto relative">
+      <button onclick="toggleMenuDrawer()" class="absolute top-6 right-6 text-azurea-stone hover:text-azurea-ivory">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="text-center pb-6 border-b border-azurea-stone/15">
+        <span class="text-[10px] tracking-luxury uppercase text-azurea-champagne">MARE OVERWATER RESTAURANT</span>
+        <h3 class="font-serif text-3xl text-azurea-ivory mt-1">Seven Tides Degustation</h3>
+        <p class="text-xs text-azurea-stone mt-1">Winter 2026 Collection &middot; $280 Per Guest</p>
+      </div>
+
+      <div class="space-y-6 pt-6 text-sm">
+        <div>
+          <div class="flex justify-between font-serif text-lg text-azurea-ivory">
+            <span>I. MALDIVIAN TUNA TARTARE</span>
+            <span class="text-azurea-champagne text-xs font-sans">Crudo</span>
+          </div>
+          <p class="text-xs text-azurea-stone/80 mt-0.5">Citrus ponzu, finger lime pearls, crispy reef seaweed, local sea salt.</p>
+        </div>
+
+        <div>
+          <div class="flex justify-between font-serif text-lg text-azurea-ivory">
+            <span>II. LOBSTER TORTELLINI</span>
+            <span class="text-azurea-champagne text-xs font-sans">Primi</span>
+          </div>
+          <p class="text-xs text-azurea-stone/80 mt-0.5">Saffron bisque reduction, tarragon emulsion, preserved Amalfi lemon.</p>
+        </div>
+
+        <div>
+          <div class="flex justify-between font-serif text-lg text-azurea-ivory">
+            <span>III. PAN-SEARED CORAL TROUT</span>
+            <span class="text-azurea-champagne text-xs font-sans">Secondi</span>
+          </div>
+          <p class="text-xs text-azurea-stone/80 mt-0.5">Charred fennel purée, wild sea asparagus, caperberry emulsion.</p>
+        </div>
+
+        <div>
+          <div class="flex justify-between font-serif text-lg text-azurea-ivory">
+            <span>IV. SMOKED COCONUT PANNA COTTA</span>
+            <span class="text-azurea-champagne text-xs font-sans">Dolce</span>
+          </div>
+          <p class="text-xs text-azurea-stone/80 mt-0.5">Passion fruit glaze, island mango sorbet, caramelized cocoa nibs.</p>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-azurea-stone/15 text-center">
+        <button onclick="toggleMenuDrawer(); openBookingModal('Mare Tasting Menu Table')" class="w-full py-3 bg-azurea-champagne text-azurea-charcoal font-semibold text-xs tracking-widest2 uppercase rounded-full">
+          Reserve Mare Dining Table
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <section class="relative h-[80vh] min-h-[580px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: linear-gradient(to bottom, rgba(9,13,18,0.6), rgba(9,13,18,0.7)), url('https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=2200&q=85');">
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light block mb-4">
+        Unbroken Seclusion
+      </span>
+      <h2 class="font-serif text-5xl sm:text-7xl font-light text-azurea-ivory leading-tight uppercase">
+        YOUR OWN<br/>
+        <span class="shimmer-text">PIECE OF PARADISE.</span>
+      </h2>
+      <p class="text-azurea-stone font-light text-sm md:text-base max-w-lg mx-auto mt-6 leading-relaxed">
+        Two kilometers of powdery white sand where footpaths remain empty and the ocean breeze carries effortless peace.
+      </p>
+      <div class="mt-8">
+        <a href="#gallery" class="inline-flex items-center space-x-3 px-8 py-3.5 bg-transparent border border-azurea-champagne text-azurea-champagne hover:bg-azurea-champagne hover:text-azurea-charcoal text-xs tracking-widest2 uppercase font-medium rounded-full transition-all">
+          <span>Explore The Coastline Gallery</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="py-28 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+      <div>
+        <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">Visual Stories</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-light text-azurea-ivory mt-2">AZUREA ESSENCE</h2>
+        <p class="text-azurea-stone font-light text-sm mt-2">Click any photograph to enter the full immersive lightbox view.</p>
+      </div>
+      <div class="mt-4 md:mt-0 text-xs text-azurea-stone/60">
+        8 Selected Curations
+      </div>
+    </div>
+
+    <!-- Asymmetric Editorial Gallery Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <!-- Gallery Item 1 -->
+      <div onclick="openLightbox(0)" class="gallery-item group relative rounded-2xl overflow-hidden h-80 cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80" 
+             alt="Resort Exterior Atoll" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        <div class="absolute inset-0 bg-azurea-charcoal/40 group-hover:bg-transparent transition-colors"></div>
+        <div class="absolute bottom-4 left-4 text-xs text-azurea-ivory opacity-0 group-hover:opacity-100 transition-opacity">
+          Overwater Boardwalk
+        </div>
+      </div>
+
+      <!-- Gallery Item 2 -->
+      <div onclick="openLightbox(1)" class="gallery-item group relative rounded-2xl overflow-hidden h-80 lg:col-span-2 cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1400&q=80" 
+             alt="Sunset Villa Architecture" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        <div class="absolute inset-0 bg-azurea-charcoal/40 group-hover:bg-transparent transition-colors"></div>
+        <div class="absolute bottom-4 left-4 text-xs text-azurea-ivory opacity-0 group-hover:opacity-100 transition-opacity">
+          Infinity Pool Horizons
+        </div>
+      </div>
+
+      <!-- Gallery Item 3 -->
+      <div onclick="openLightbox(2)" class="gallery-item group relative rounded-2xl overflow-hidden h-80 cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80" 
+             alt="Luxury Suite Bedroom" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        <div class="absolute inset-0 bg-azurea-charcoal/40 group-hover:bg-transparent transition-colors"></div>
+        <div class="absolute bottom-4 left-4 text-xs text-azurea-ivory opacity-0 group-hover:opacity-100 transition-opacity">
+          Master Suite Bedroom
+        </div>
+      </div>
+
+      <!-- Gallery Item 4 -->
+      <div onclick="openLightbox(3)" class="gallery-item group relative rounded-2xl overflow-hidden h-80 lg:col-span-2 cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1400&q=80" 
+             alt="Spa Wellness Bath" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        <div class="absolute inset-0 bg-azurea-charcoal/40 group-hover:bg-transparent transition-colors"></div>
+        <div class="absolute bottom-4 left-4 text-xs text-azurea-ivory opacity-0 group-hover:opacity-100 transition-opacity">
+          Open Sky Hydrotherapy
+        </div>
+      </div>
+
+      <!-- Gallery Item 5 -->
+      <div onclick="openLightbox(4)" class="gallery-item group relative rounded-2xl overflow-hidden h-80 cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80" 
+             alt="Restaurant Dining" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        <div class="absolute inset-0 bg-azurea-charcoal/40 group-hover:bg-transparent transition-colors"></div>
+        <div class="absolute bottom-4 left-4 text-xs text-azurea-ivory opacity-0 group-hover:opacity-100 transition-opacity">
+          Oceanfront Table
+        </div>
+      </div>
+
+      <!-- Gallery Item 6 -->
+      <div onclick="openLightbox(5)" class="gallery-item group relative rounded-2xl overflow-hidden h-80 cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1200&q=80" 
+             alt="Pristine Beach" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        <div class="absolute inset-0 bg-azurea-charcoal/40 group-hover:bg-transparent transition-colors"></div>
+        <div class="absolute bottom-4 left-4 text-xs text-azurea-ivory opacity-0 group-hover:opacity-100 transition-opacity">
+          Isolated Sand Shore
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Gallery Lightbox Modal -->
+  <div id="lightbox-modal" class="fixed inset-0 z-[9995] bg-black/95 backdrop-blur-xl hidden flex-col justify-between p-6 sm:p-12 transition-all">
+    <div class="flex items-center justify-between text-azurea-stone">
+      <div class="text-xs uppercase tracking-widest2" id="lightbox-counter">Image 1 of 6</div>
+      <button onclick="closeLightbox()" class="text-azurea-ivory hover:text-azurea-champagne p-2">
+        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Main Lightbox Display -->
+    <div class="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
+      <button onclick="prevLightbox()" class="absolute left-2 sm:left-6 z-10 text-azurea-ivory/70 hover:text-azurea-champagne p-3 rounded-full bg-azurea-charcoal/50">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      
+      <img id="lightbox-img" src="" alt="Lightbox View" class="max-h-[75vh] max-w-full rounded-xl object-contain shadow-2xl transition-all duration-300">
+
+      <button onclick="nextLightbox()" class="absolute right-2 sm:right-6 z-10 text-azurea-ivory/70 hover:text-azurea-champagne p-3 rounded-full bg-azurea-charcoal/50">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div class="text-center">
+      <p id="lightbox-caption" class="font-serif text-lg text-azurea-ivory italic"></p>
+    </div>
+  </div>
+
+  <section id="expansion-section" class="relative py-28 overflow-hidden bg-azurea-charcoal">
+    <div class="max-w-7xl mx-auto px-6 mb-12 text-center">
+      <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">The Transition</span>
+      <h2 class="font-serif text-3xl sm:text-5xl text-azurea-ivory font-light mt-1">Expanding Into Boundless Serenity</h2>
+    </div>
+
+    <!-- Expanding Canvas Container -->
+    <div class="relative max-w-4xl mx-auto px-6 h-[460px] flex items-center justify-center">
+      <div id="expanding-frame" class="w-full h-full rounded-3xl overflow-hidden transition-all duration-700 shadow-2xl relative">
+        <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=2000&q=85" 
+             alt="Expanding Ocean Atoll" 
+             class="w-full h-full object-cover" loading="lazy">
+        <div class="absolute inset-0 bg-azurea-charcoal/30 flex items-center justify-center">
+          <span class="font-serif text-3xl sm:text-4xl text-azurea-ivory italic tracking-wide">
+            Where time dissolves.
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-28 bg-azurea-dark/60 border-t border-azurea-stone/10">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">Reflections</span>
+      <h2 class="font-serif text-3xl sm:text-4xl font-light text-azurea-ivory mt-2 mb-12">WORDS FROM OUR GUESTS</h2>
+
+      <!-- Testimonial Slider Container -->
+      <div class="relative min-h-[220px] flex flex-col justify-center items-center">
+        
+        <div id="testimonial-slide-0" class="testimonial-slide transition-opacity duration-500">
+          <p class="font-serif text-2xl sm:text-3xl text-azurea-ivory font-light leading-relaxed italic">
+            &ldquo;Azurea was unlike anywhere we have stayed before. Every detail felt intentional, private, and breathtakingly personal. We arrived exhausted and departed completely renewed.&rdquo;
+          </p>
+          <div class="mt-8">
+            <span class="text-xs tracking-widest2 uppercase text-azurea-champagne font-medium block">Emily &amp; Richard Carter</span>
+            <span class="text-[11px] text-azurea-stone/60">London, United Kingdom &middot; Stayed 8 Nights</span>
+          </div>
+        </div>
+
+        <div id="testimonial-slide-1" class="testimonial-slide hidden transition-opacity duration-500">
+          <p class="font-serif text-2xl sm:text-3xl text-azurea-ivory font-light leading-relaxed italic">
+            &ldquo;The architecture honors the lagoon rather than overpowering it. Having dinner on our private sandbank under the Southern Cross was a memory our family will cherish for life.&rdquo;
+          </p>
+          <div class="mt-8">
+            <span class="text-xs tracking-widest2 uppercase text-azurea-champagne font-medium block">Lord Julian Sterling</span>
+            <span class="text-[11px] text-azurea-stone/60">Geneva, Switzerland &middot; Presidential Villa</span>
+          </div>
+        </div>
+
+        <div id="testimonial-slide-2" class="testimonial-slide hidden transition-opacity duration-500">
+          <p class="font-serif text-2xl sm:text-3xl text-azurea-ivory font-light leading-relaxed italic">
+            &ldquo;Rarely does a resort website match the reality. In Azurea's case, the reality was ten times more magical. The intuitive service of our host was world-class.&rdquo;
+          </p>
+          <div class="mt-8">
+            <span class="text-xs tracking-widest2 uppercase text-azurea-champagne font-medium block">Dr. Kenji Takahashi</span>
+            <span class="text-[11px] text-azurea-stone/60">Tokyo, Japan &middot; Sunset Residence</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Slider Controls -->
+      <div class="flex items-center justify-center space-x-6 mt-10">
+        <button onclick="prevTestimonial()" class="p-2 text-azurea-stone hover:text-azurea-champagne transition-colors">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="flex space-x-2" id="testimonial-dots">
+          <span class="w-2 h-2 rounded-full bg-azurea-champagne"></span>
+          <span class="w-2 h-2 rounded-full bg-azurea-stone/30"></span>
+          <span class="w-2 h-2 rounded-full bg-azurea-stone/30"></span>
+        </div>
+        <button onclick="nextTestimonial()" class="p-2 text-azurea-stone hover:text-azurea-champagne transition-colors">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="journal" class="py-28 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+      <div>
+        <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">The Gazette</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-light text-azurea-ivory mt-2">THE AZUREA JOURNAL</h2>
+      </div>
+      <p class="text-azurea-stone font-light text-xs md:text-sm max-w-sm mt-4 md:mt-0">
+        Dispatches on architecture, maritime conservation, slow travel, and island lore.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      
+      <!-- Article 1 -->
+      <article class="group cursor-pointer">
+        <div class="rounded-2xl overflow-hidden h-64 mb-5 bg-azurea-card">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" 
+               alt="Article 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        </div>
+        <span class="text-[10px] uppercase tracking-luxury text-azurea-champagne font-medium">Philosophy</span>
+        <h3 class="font-serif text-xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1 leading-snug">
+          The Art of Slow Travel: Leaving the Clock Behind
+        </h3>
+        <p class="text-xs text-azurea-stone font-light mt-2 line-clamp-2">How stepping onto an isolated atoll recalibrates human circadian biology.</p>
+        <span class="text-[10px] text-azurea-muted block mt-4 tracking-wider uppercase">Oct 14 &middot; 4 Min Read</span>
+      </article>
+
+      <!-- Article 2 -->
+      <article class="group cursor-pointer">
+        <div class="rounded-2xl overflow-hidden h-64 mb-5 bg-azurea-card">
+          <img src="https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&w=800&q=80" 
+               alt="Article 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        </div>
+        <span class="text-[10px] uppercase tracking-luxury text-azurea-champagne font-medium">Design</span>
+        <h3 class="font-serif text-xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1 leading-snug">
+          Inside Our Ocean Villas: The Architecture of Light
+        </h3>
+        <p class="text-xs text-azurea-stone font-light mt-2 line-clamp-2">The delicate craft of balancing tropical wind ventilation with complete privacy.</p>
+        <span class="text-[10px] text-azurea-muted block mt-4 tracking-wider uppercase">Sep 28 &middot; 6 Min Read</span>
+      </article>
+
+      <!-- Article 3 -->
+      <article class="group cursor-pointer">
+        <div class="rounded-2xl overflow-hidden h-64 mb-5 bg-azurea-card">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" 
+               alt="Article 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        </div>
+        <span class="text-[10px] uppercase tracking-luxury text-azurea-champagne font-medium">Destinations</span>
+        <h3 class="font-serif text-xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1 leading-snug">
+          Where to Find the World's Most Pristine Sunsets
+        </h3>
+        <p class="text-xs text-azurea-stone font-light mt-2 line-clamp-2">Navigating the outer barrier sandbars where twilight reflects like silver mercury.</p>
+        <span class="text-[10px] text-azurea-muted block mt-4 tracking-wider uppercase">Aug 19 &middot; 5 Min Read</span>
+      </article>
+
+      <!-- Article 4 -->
+      <article class="group cursor-pointer">
+        <div class="rounded-2xl overflow-hidden h-64 mb-5 bg-azurea-card">
+          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" 
+               alt="Article 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        </div>
+        <span class="text-[10px] uppercase tracking-luxury text-azurea-champagne font-medium">Ecology</span>
+        <h3 class="font-serif text-xl text-azurea-ivory group-hover:text-azurea-champagne transition-colors mt-1 leading-snug">
+          Restoring the Coral Nurseries of the Baa Atoll
+        </h3>
+        <p class="text-xs text-azurea-stone font-light mt-2 line-clamp-2">How every guest stay contributes directly to our living staghorn propagation reef.</p>
+        <span class="text-[10px] text-azurea-muted block mt-4 tracking-wider uppercase">Jul 02 &middot; 7 Min Read</span>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="journey-timeline" class="py-28 bg-azurea-dark/70 border-t border-b border-azurea-stone/10">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">The Transit</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-light text-azurea-ivory mt-2">THE JOURNEY IS PART OF THE EXPERIENCE</h2>
+        <p class="text-azurea-stone font-light text-sm mt-3">From the moment your wheels touch down at Velana International Airport, your personal Azurea steward takes custody of every detail.</p>
+      </div>
+
+      <!-- 5-Step Process Timeline -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 relative">
+        
+        <div class="p-6 rounded-2xl bg-azurea-charcoal border border-azurea-stone/15 flex flex-col justify-between">
+          <div>
+            <span class="font-serif text-3xl text-azurea-champagne">01</span>
+            <h4 class="font-serif text-xl text-azurea-ivory mt-2">VIP Arrival</h4>
+            <p class="text-xs text-azurea-stone/80 font-light mt-2">Private customs fast-track escort and luggage handling in Malé.</p>
+          </div>
+          <span class="text-[10px] text-azurea-muted uppercase tracking-widest2 mt-6 block">Airport Terminal</span>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-azurea-charcoal border border-azurea-stone/15 flex flex-col justify-between">
+          <div>
+            <span class="font-serif text-3xl text-azurea-champagne">02</span>
+            <h4 class="font-serif text-xl text-azurea-ivory mt-2">Lounge Serenity</h4>
+            <p class="text-xs text-azurea-stone/80 font-light mt-2">Rest in the Azurea Seaplane Lounge with artisan refreshments and shower suites.</p>
+          </div>
+          <span class="text-[10px] text-azurea-muted uppercase tracking-widest2 mt-6 block">Private Lounge</span>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-azurea-charcoal border border-azurea-stone/15 flex flex-col justify-between">
+          <div>
+            <span class="font-serif text-3xl text-azurea-champagne">03</span>
+            <h4 class="font-serif text-xl text-azurea-ivory mt-2">Seaplane Flight</h4>
+            <p class="text-xs text-azurea-stone/80 font-light mt-2">A scenic 35-minute aerial flight across 100 ring atolls to our private lagoon.</p>
+          </div>
+          <span class="text-[10px] text-azurea-muted uppercase tracking-widest2 mt-6 block">35-Minute Air Transit</span>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-azurea-charcoal border border-azurea-stone/15 flex flex-col justify-between">
+          <div>
+            <span class="font-serif text-3xl text-azurea-champagne">04</span>
+            <h4 class="font-serif text-xl text-azurea-ivory mt-2">Jetty Welcome</h4>
+            <p class="text-xs text-azurea-stone/80 font-light mt-2">Boduberu drum greetings, chilled coconut elixir, and your personal butler introduction.</p>
+          </div>
+          <span class="text-[10px] text-azurea-muted uppercase tracking-widest2 mt-6 block">Lagoon Arrival</span>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-azurea-charcoal border border-azurea-stone/15 flex flex-col justify-between">
+          <div>
+            <span class="font-serif text-3xl text-azurea-champagne">05</span>
+            <h4 class="font-serif text-xl text-azurea-ivory mt-2">In-Villa Check-in</h4>
+            <p class="text-xs text-azurea-stone/80 font-light mt-2">Zero front desk lines. Discreet registration completed privately in your villa.</p>
+          </div>
+          <span class="text-[10px] text-azurea-champagne uppercase tracking-widest2 mt-6 block">Your Sanctuary</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 border-b border-azurea-stone/10">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        
+        <div>
+          <span class="font-serif text-5xl md:text-6xl text-azurea-ivory font-light block counter-number" data-target="24">0</span>
+          <span class="text-[10px] uppercase tracking-luxury text-azurea-champagne mt-2 block font-medium">Private Ocean Villas</span>
+        </div>
+
+        <div>
+          <span class="font-serif text-5xl md:text-6xl text-azurea-ivory font-light block counter-number" data-target="7">0</span>
+          <span class="text-[10px] uppercase tracking-luxury text-azurea-champagne mt-2 block font-medium">Signature Experiences</span>
+        </div>
+
+        <div>
+          <span class="font-serif text-5xl md:text-6xl text-azurea-ivory font-light block counter-number" data-target="12">0</span>
+          <span class="text-[10px] uppercase tracking-luxury text-azurea-champagne mt-2 block font-medium">Years Of Curated Hospitality</span>
+        </div>
+
+        <div>
+          <span class="font-serif text-5xl md:text-6xl text-azurea-ivory font-light block"><span class="counter-number" data-target="98">0</span>%</span>
+          <span class="text-[10px] uppercase tracking-luxury text-azurea-champagne mt-2 block font-medium">Guest Return &amp; Satisfaction</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 px-6 md:px-12 max-w-5xl mx-auto">
+    <div class="relative rounded-3xl p-8 sm:p-14 overflow-hidden border border-azurea-champagne/40 bg-gradient-to-br from-azurea-dark via-[#0F1722] to-azurea-charcoal shadow-2xl">
+      <div class="relative z-10 max-w-2xl space-y-4">
+        <span class="px-3 py-1 bg-azurea-champagne/20 text-azurea-champagne text-[10px] tracking-luxury uppercase rounded-full border border-azurea-champagne/30">
+          Exclusive Curated Residency
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-azurea-ivory leading-tight">
+          Stay 5 Nights.<br/>
+          Enjoy An Island Sanctuary Experience.
+        </h2>
+        <p class="text-azurea-stone font-light text-sm sm:text-base leading-relaxed">
+          Reserve five or more consecutive nights in any Overwater or Sunset Residence and receive roundtrip seaplane transit for two, a private sandbank dinner under the stars, and a daily holistic spa treatment.
+        </p>
+        
+        <div class="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <button onclick="openBookingModal('Stay 5 Nights Offer')" class="px-8 py-3.5 bg-azurea-champagne hover:bg-azurea-champagneHover text-azurea-charcoal text-xs tracking-widest2 uppercase font-medium rounded-full transition-all">
+            View This Exclusive Offer
+          </button>
+          <span class="text-[11px] text-azurea-muted tracking-wider">Valid for stays through December 2026</span>
+        </div>
+      </div>
+
+      <!-- Watermark Background Decal -->
+      <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none select-none">
+        <span class="font-serif text-[240px] text-azurea-ivory font-light">AZ</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative py-36 md:py-48 flex items-center justify-center text-center overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: linear-gradient(to bottom, rgba(9,13,18,0.7), rgba(9,13,18,0.85)), url('https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=2400&q=85');">
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-6">
+      <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light block mb-4">
+        Your Journey Awaits
+      </span>
+
+      <h2 class="font-serif text-5xl sm:text-7xl md:text-8xl font-light text-azurea-ivory uppercase leading-none">
+        WHEN ARE YOU<br/>
+        <span class="italic font-serif font-light text-azurea-sand lowercase">arriving?</span>
+      </h2>
+
+      <p class="text-azurea-stone text-sm md:text-base font-light max-w-md mx-auto mt-6">
+        Let our reservation stewards craft your personal itinerary to perfection.
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button onclick="openBookingModal()" class="w-full sm:w-auto px-8 py-4 bg-azurea-champagne hover:bg-azurea-champagneHover text-azurea-charcoal text-xs tracking-widest2 uppercase font-semibold rounded-full transition-all shadow-xl">
+          Book Your Stay
+        </button>
+        <a href="#reservation" class="w-full sm:w-auto px-8 py-4 bg-transparent border border-azurea-ivory/30 hover:border-azurea-champagne text-azurea-ivory text-xs tracking-widest2 uppercase font-light rounded-full transition-all">
+          Contact Concierge
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="reservation" class="py-28 px-6 md:px-12 max-w-4xl mx-auto">
+    <div class="bg-azurea-dark/95 border border-azurea-champagne/30 rounded-3xl p-8 sm:p-14 shadow-2xl">
+      <div class="text-center mb-10">
+        <span class="text-xs uppercase tracking-luxury text-azurea-champagne font-light">Discreet Inquiries</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-light text-azurea-ivory mt-1">REQUEST YOUR RESERVATION</h2>
+        <p class="text-xs text-azurea-stone mt-2 font-light">Your information is handled with absolute discretion by our private guest relations office.</p>
+      </div>
+
+      <form onsubmit="handleReservationSubmit(event)" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="flex flex-col border-b border-azurea-stone/20 focus-within:border-azurea-champagne py-2">
+            <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne">First Name</label>
+            <input type="text" required placeholder="Lord / Lady / Dr. / Mr. / Ms." class="bg-transparent text-azurea-ivory text-sm focus:outline-none pt-1">
+          </div>
+          <div class="flex flex-col border-b border-azurea-stone/20 focus-within:border-azurea-champagne py-2">
+            <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne">Last Name</label>
+            <input type="text" required placeholder="Surname" class="bg-transparent text-azurea-ivory text-sm focus:outline-none pt-1">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="flex flex-col border-b border-azurea-stone/20 focus-within:border-azurea-champagne py-2">
+            <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne">Email Address</label>
+            <input type="email" required placeholder="contact@domain.com" class="bg-transparent text-azurea-ivory text-sm focus:outline-none pt-1">
+          </div>
+          <div class="flex flex-col border-b border-azurea-stone/20 focus-within:border-azurea-champagne py-2">
+            <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne">Phone / WhatsApp</label>
+            <input type="tel" placeholder="+1 (555) 000-0000" class="bg-transparent text-azurea-ivory text-sm focus:outline-none pt-1">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="flex flex-col border-b border-azurea-stone/20 focus-within:border-azurea-champagne py-2">
+            <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne">Target Arrival</label>
+            <input type="date" required class="bg-transparent text-azurea-ivory text-xs focus:outline-none pt-1">
+          </div>
+          <div class="flex flex-col border-b border-azurea-stone/20 focus-within:border-azurea-champagne py-2">
+            <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne">Target Departure</label>
+            <input type="date" required class="bg-transparent text-azurea-ivory text-xs focus:outline-none pt-1">
+          </div>
+          <div class="flex flex-col border-b border-azurea-stone/20 focus-within:border-azurea-champagne py-2">
+            <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne">Preferred Villa</label>
+            <select class="bg-transparent text-azurea-ivory text-xs focus:outline-none pt-1">
+              <option class="bg-azurea-dark" value="ocean">Ocean Villa</option>
+              <option class="bg-azurea-dark" value="sunset">Sunset Residence</option>
+              <option class="bg-azurea-dark" value="garden">Garden Pavilion</option>
+              <option class="bg-azurea-dark" value="presidential">Presidential Atoll Villa</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex flex-col border-b border-azurea-stone/20 focus-within:border-azurea-champagne py-2">
+          <label class="text-[9px] uppercase tracking-luxury text-azurea-champagne">Special Inquiries or Dietary Preferences</label>
+          <textarea rows="3" placeholder="Dietary notes, private yacht transfer, anniversary arrangements..." class="bg-transparent text-azurea-ivory text-xs focus:outline-none pt-1 resize-none"></textarea>
+        </div>
+
+        <div class="pt-4 text-center">
+          <button type="submit" class="w-full sm:w-auto px-12 py-4 bg-azurea-champagne hover:bg-azurea-champagneHover text-azurea-charcoal font-semibold text-xs tracking-widest2 uppercase rounded-full transition-all">
+            Submit Reservation Request
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="py-16 border-t border-azurea-stone/10 bg-azurea-charcoal/50">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-6">
+      <div>
+        <span class="text-[10px] uppercase tracking-luxury text-azurea-champagne font-medium">Private Concierge Desk</span>
+        <h3 class="font-serif text-2xl text-azurea-ivory mt-1">Our Stewards Are At Your Disposal</h3>
+        <p class="text-xs text-azurea-stone font-light mt-1">Available 24 hours daily across all international time zones.</p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-4 text-xs">
+        <a href="tel:+9606809100" class="px-5 py-2.5 rounded-full border border-azurea-stone/30 hover:border-azurea-champagne text-azurea-ivory transition-colors">
+          +960 680 9100
+        </a>
+        <a href="mailto:concierge@azurea-resort.com" class="px-5 py-2.5 rounded-full border border-azurea-stone/30 hover:border-azurea-champagne text-azurea-ivory transition-colors">
+          concierge@azurea-resort.com
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-[#05080c] border-t border-azurea-stone/10 pt-20 pb-12 text-azurea-stone">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+        
+        <!-- Brand Summary -->
+        <div class="lg:col-span-2 space-y-4">
+          <span class="font-serif text-3xl text-azurea-ivory tracking-luxury block font-light">AZUREA</span>
+          <p class="font-serif italic text-azurea-stone/75 text-sm">&ldquo;Arrive somewhere extraordinary.&rdquo;</p>
+          <p class="text-xs text-azurea-stone font-light max-w-sm leading-relaxed">
+            An ultra-exclusive private island sanctuary in the North Malé Atoll, designed for privacy, restorative wellness, and authentic marine discovery.
+          </p>
+        </div>
+
+        <!-- Navigation Links -->
+        <div>
+          <h4 class="text-[10px] uppercase tracking-luxury text-azurea-champagne font-semibold mb-4">The Resort</h4>
+          <ul class="space-y-2.5 text-xs font-light">
+            <li><a href="#accommodations" class="hover:text-azurea-champagne transition-colors">Accommodations</a></li>
+            <li><a href="#experiences" class="hover:text-azurea-champagne transition-colors">Island Experiences</a></li>
+            <li><a href="#dining" class="hover:text-azurea-champagne transition-colors">Mare Dining</a></li>
+            <li><a href="#wellness" class="hover:text-azurea-champagne transition-colors">Sanctuary Spa</a></li>
+            <li><a href="#destination" class="hover:text-azurea-champagne transition-colors">Location &amp; Access</a></li>
+          </ul>
+        </div>
+
+        <!-- Editorial & Concierge -->
+        <div>
+          <h4 class="text-[10px] uppercase tracking-luxury text-azurea-champagne font-semibold mb-4">Direct Contact</h4>
+          <ul class="space-y-2.5 text-xs font-light">
+            <li><a href="#journal" class="hover:text-azurea-champagne transition-colors">The Azurea Gazette</a></li>
+            <li><a href="#journey-timeline" class="hover:text-azurea-champagne transition-colors">Arrival Guide</a></li>
+            <li><a href="mailto:press@azurea-resort.com" class="hover:text-azurea-champagne transition-colors">Press Inquiries</a></li>
+            <li><a href="mailto:privatejet@azurea-resort.com" class="hover:text-azurea-champagne transition-colors">Private Aviation Liaison</a></li>
+            <li><a href="#reservation" class="hover:text-azurea-champagne transition-colors">Discreet Bookings</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter Subscription -->
+        <div>
+          <h4 class="text-[10px] uppercase tracking-luxury text-azurea-champagne font-semibold mb-4">The Gazette Dispatch</h4>
+          <p class="text-xs font-light mb-3">Receive seasonal private residency dispatches and private island invites.</p>
+          <form onsubmit="handleNewsletter(event)" class="space-y-2">
+            <input type="email" required placeholder="Your email address" class="w-full px-4 py-2.5 bg-azurea-card rounded-lg text-xs text-azurea-ivory border border-azurea-stone/20 focus:outline-none focus:border-azurea-champagne">
+            <button type="submit" class="w-full py-2 bg-azurea-champagne hover:bg-azurea-champagneHover text-azurea-charcoal font-semibold text-[10px] tracking-widest2 uppercase rounded-lg transition-colors">
+              Subscribe
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 border-t border-azurea-stone/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-azurea-stone/50 font-light gap-4">
+        <div>
+          &copy; 2026 AZUREA PRIVATE RESORT. ALL RIGHTS RESERVED.
+        </div>
+        <div class="flex space-x-6">
+          <a href="#" class="hover:text-azurea-champagne transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-azurea-champagne transition-colors">Terms of Sanctuary</a>
+          <a href="#" class="hover:text-azurea-champagne transition-colors">Bespoke Charter</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Universal Booking Modal Popup -->
+  <div id="booking-modal" class="fixed inset-0 z-[9998] bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-azurea-dark border border-azurea-champagne/40 rounded-3xl max-w-lg w-full p-8 relative shadow-2xl">
+      <button onclick="closeBookingModal()" class="absolute top-6 right-6 text-azurea-stone hover:text-azurea-ivory">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="text-center mb-6">
+        <span class="text-[10px] tracking-luxury uppercase text-azurea-champagne">AZUREA PRIVATE RESORT</span>
+        <h3 class="font-serif text-3xl text-azurea-ivory mt-1">Reserve Your Stay</h3>
+        <p class="text-xs text-azurea-stone mt-1 font-light" id="modal-suite-title">Select dates for instant availability inquiry</p>
+      </div>
+
+      <form onsubmit="handleModalSubmit(event)" class="space-y-4 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[9px] uppercase tracking-wider text-azurea-champagne block mb-1">Arrival Date</label>
+            <input type="date" required value="2026-11-15" class="w-full bg-azurea-charcoal border border-azurea-stone/20 rounded-xl px-3 py-2 text-azurea-ivory focus:outline-none focus:border-azurea-champagne">
+          </div>
+          <div>
+            <label class="text-[9px] uppercase tracking-wider text-azurea-champagne block mb-1">Departure Date</label>
+            <input type="date" required value="2026-11-21" class="w-full bg-azurea-charcoal border border-azurea-stone/20 rounded-xl px-3 py-2 text-azurea-ivory focus:outline-none focus:border-azurea-champagne">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[9px] uppercase tracking-wider text-azurea-champagne block mb-1">Guest Name</label>
+          <input type="text" required placeholder="Full Name" class="w-full bg-azurea-charcoal border border-azurea-stone/20 rounded-xl px-3 py-2 text-azurea-ivory focus:outline-none focus:border-azurea-champagne">
+        </div>
+
+        <div>
+          <label class="text-[9px] uppercase tracking-wider text-azurea-champagne block mb-1">Email for Confidential Confirmation</label>
+          <input type="email" required placeholder="name@domain.com" class="w-full bg-azurea-charcoal border border-azurea-stone/20 rounded-xl px-3 py-2 text-azurea-ivory focus:outline-none focus:border-azurea-champagne">
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-azurea-champagne hover:bg-azurea-champagneHover text-azurea-charcoal font-semibold text-xs tracking-widest2 uppercase rounded-full transition-colors mt-2">
+          Confirm Confidential Inquiry
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Discreet Toast Notification -->
+  <div id="toast" class="fixed bottom-8 right-8 z-[9999] bg-azurea-dark/95 border border-azurea-champagne text-azurea-ivory px-6 py-4 rounded-2xl shadow-2xl transform translate-y-32 transition-transform duration-500 flex items-center space-x-3 pointer-events-none">
+    <div class="w-2 h-2 rounded-full bg-azurea-champagne animate-pulse"></div>
+    <span id="toast-message" class="text-xs font-light tracking-wide">Inquiry submitted with discretion.</span>
+  </div>
+
+  <script>
+    /* =============================================================
+       Safe GSAP Loader & Fallback Guard
+       Prevents ReferenceError: gsap is not defined in sandboxed previews
+       ============================================================= */
+    function ensureGsapReady(onReady) {
+      if (typeof window.gsap !== 'undefined') {
+        if (typeof window.ScrollTrigger !== 'undefined') {
+          gsap.registerPlugin(ScrollTrigger);
+        }
+        onReady(true);
+        return;
+      }
+
+      const fallbackScript = document.createElement('script');
+      fallbackScript.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js';
+      
+      fallbackScript.onload = function() {
+        const triggerScript = document.createElement('script');
+        triggerScript.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+        triggerScript.onload = function() {
+          if (typeof window.ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+          }
+          onReady(true);
+        };
+        triggerScript.onerror = function() {
+          onReady(true); // Still proceed with GSAP core
+        };
+        document.head.appendChild(triggerScript);
+      };
+
+      fallbackScript.onerror = function() {
+        // Graceful degradation when offline or CDNs are blocked
+        console.warn('GSAP could not be loaded from CDNs. Falling back to native transitions.');
+        onReady(false);
+      };
+
+      document.head.appendChild(fallbackScript);
+    }
+
+    /* -------------------------------------------------------------
+       1. Custom Cursor Movement (Desktop Only)
+       ------------------------------------------------------------- */
+    const cursor = document.getElementById('custom-cursor');
+    const cursorTrail = document.getElementById('cursor-trail');
+    const cursorText = document.getElementById('cursor-text');
+
+    if (window.matchMedia("(pointer: fine)").matches) {
+      window.addEventListener('mousemove', (e) => {
+        if (typeof window.gsap !== 'undefined') {
+          gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.08 });
+          gsap.to(cursorTrail, { x: e.clientX, y: e.clientY, duration: 0.22, ease: "power2.out" });
+        } else {
+          cursor.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
+          cursorTrail.style.transform = `translate(${e.clientX - 18}px, ${e.clientY - 18}px)`;
+        }
+      });
+
+      document.querySelectorAll('.gallery-item, .img-zoom-container').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursorTrail.classList.add('hover-view');
+          cursorText.innerText = "VIEW";
+          cursorText.classList.remove('opacity-0');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorTrail.classList.remove('hover-view');
+          cursorText.innerText = "";
+          cursorText.classList.add('opacity-0');
+        });
+      });
+
+      document.querySelectorAll('button, a').forEach(el => {
+        el.addEventListener('mouseenter', () => cursorTrail.classList.add('hover-link'));
+        el.addEventListener('mouseleave', () => cursorTrail.classList.remove('hover-link'));
+      });
+    }
+
+    let introTl = null;
+
+    function startIntroSequence(hasGsap) {
+      const intro = document.getElementById('cinematic-intro');
+      
+      if (!hasGsap) {
+        // Fallback: fade out intro smoothly with native CSS transitions
+        setTimeout(() => {
+          if (intro) {
+            intro.style.opacity = '0';
+            setTimeout(finishIntro, 800);
+          }
+        }, 1200);
+        return;
+      }
+
+      introTl = gsap.timeline({
+        onComplete: () => {
+          finishIntro();
+        }
+      });
+
+      introTl
+        .to("#intro-glow", { opacity: 0.8, duration: 1.2, ease: "power2.out" })
+        .to("#intro-line", { width: "120px", duration: 1.0, ease: "power2.inOut" }, "-=0.6")
+        .to("#intro-brand", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }, "-=0.4")
+        .to("#intro-sub", { opacity: 1, duration: 0.8 }, "-=0.6")
+        .to("#intro-tagline", { opacity: 1, duration: 0.8 }, "-=0.4")
+        .to("#intro-bg-reveal", { opacity: 0.35, scale: 1, duration: 2.0, ease: "power1.out" }, "-=1.4")
+        .to("#cinematic-intro", { opacity: 0, duration: 1.0, ease: "power2.inOut", delay: 0.5 });
+    }
+
+    function finishIntro() {
+      const intro = document.getElementById('cinematic-intro');
+      if (intro) {
+        intro.style.pointerEvents = 'none';
+        intro.style.display = 'none';
+      }
+      triggerHeroEntrance();
+    }
+
+    document.getElementById('skip-intro-btn').addEventListener('click', () => {
+      if (introTl) {
+        introTl.kill();
+      }
+      const intro = document.getElementById('cinematic-intro');
+      if (typeof window.gsap !== 'undefined') {
+        gsap.to("#cinematic-intro", {
+          opacity: 0,
+          duration: 0.4,
+          onComplete: finishIntro
+        });
+      } else {
+        finishIntro();
+      }
+    });
+
+    function triggerHeroEntrance() {
+      if (typeof window.gsap !== 'undefined') {
+        gsap.fromTo("#hero-tag", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
+        gsap.fromTo("#hero-title", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, delay: 0.2, ease: "power3.out" });
+        gsap.fromTo("#hero-desc", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, delay: 0.4, ease: "power3.out" });
+        gsap.fromTo("#hero-buttons", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, delay: 0.6, ease: "power3.out" });
+      } else {
+        const elements = ["#hero-tag", "#hero-title", "#hero-desc", "#hero-buttons"];
+        elements.forEach(sel => {
+          const el = document.querySelector(sel);
+          if (el) el.style.opacity = '1';
+        });
+      }
+    }
+
+    const heroBg = document.getElementById('hero-bg');
+    window.addEventListener('mousemove', (e) => {
+      if (window.innerWidth > 1024 && heroBg && typeof window.gsap !== 'undefined') {
+        const xPos = (e.clientX / window.innerWidth - 0.5) * 20;
+        const yPos = (e.clientY / window.innerHeight - 0.5) * 20;
+        gsap.to(heroBg, { x: xPos, y: yPos, duration: 1.5, ease: "power1.out" });
+      }
+    });
+
+    function setupScrollFeatures() {
+      if (typeof window.ScrollTrigger !== 'undefined' && typeof window.gsap !== 'undefined') {
+        // Destination Zoom
+        gsap.to("#destination-parallax-bg", {
+          scale: 1.0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#destination",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
+          }
+        });
+
+        // Expanding Canvas Transition
+        gsap.to("#expanding-frame", {
+          maxWidth: "100%",
+          width: "100vw",
+          borderRadius: "0px",
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#expansion-section",
+            start: "top 70%",
+            end: "bottom 30%",
+            scrub: 1
+          }
+        });
+
+        // Animated Numerical Counters
+        const counters = document.querySelectorAll('.counter-number');
+        counters.forEach(counter => {
+          const target = +counter.getAttribute('data-target');
+          ScrollTrigger.create({
+            trigger: counter,
+            start: "top 88%",
+            once: true,
+            onEnter: () => {
+              gsap.to(counter, {
+                innerText: target,
+                duration: 2.2,
+                snap: { innerText: 1 },
+                ease: "power2.out"
+              });
+            }
+          });
+        });
+      } else {
+        // Native IntersectionObserver fallback
+        const counters = document.querySelectorAll('.counter-number');
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const target = +entry.target.getAttribute('data-target');
+              entry.target.innerText = target;
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+
+        counters.forEach(c => observer.observe(c));
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      ensureGsapReady((hasGsap) => {
+        startIntroSequence(hasGsap);
+        setupScrollFeatures();
+      });
+    });
+
+    // Fallback timer if DOMContentLoaded already fired
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      ensureGsapReady((hasGsap) => {
+        startIntroSequence(hasGsap);
+        setupScrollFeatures();
+      });
+    }
+
+    /* -------------------------------------------------------------
+       4. Sticky Nav Transform on Scroll
+       ------------------------------------------------------------- */
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        nav.classList.add('bg-azurea-charcoal/90', 'backdrop-blur-xl', 'py-4', 'border-b', 'border-azurea-stone/10');
+        nav.classList.remove('py-6');
+      } else {
+        nav.classList.remove('bg-azurea-charcoal/90', 'backdrop-blur-xl', 'py-4', 'border-b', 'border-azurea-stone/10');
+        nav.classList.add('py-6');
+      }
+    });
+
+    /* -------------------------------------------------------------
+       5. Mobile Navigation Drawer
+       ------------------------------------------------------------- */
+    let mobileOpen = false;
+    const mobileMenu = document.getElementById('mobile-menu');
+    function toggleMobileMenu() {
+      mobileOpen = !mobileOpen;
+      if (mobileOpen) {
+        mobileMenu.classList.remove('pointer-events-none', 'opacity-0');
+        mobileMenu.classList.add('pointer-events-auto', 'opacity-100');
+        document.body.style.overflow = 'hidden';
+      } else {
+        mobileMenu.classList.remove('pointer-events-auto', 'opacity-100');
+        mobileMenu.classList.add('pointer-events-none', 'opacity-0');
+        document.body.style.overflow = '';
+      }
+    }
+    document.getElementById('menu-toggle-btn').addEventListener('click', toggleMobileMenu);
+
+    /* -------------------------------------------------------------
+       6. Interactive Room Experience Switcher
+       ------------------------------------------------------------- */
+    const roomData = {
+      overview: {
+        badgeCat: "Living Masterwork",
+        badgeCap: "Lagoon Overwater Deck",
+        sub: "Signature Overwater Suite",
+        title: "Unfiltered Horizons Above the Coral Reef",
+        desc: "Constructed with sustainably harvested teak and brushed bronze fixtures, the Master Ocean Suite extends into the Maldivian horizon with continuous sliding glass curtains that vanish into the walls.",
+        img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=85",
+        features: [
+          "Floor-to-ceiling glass wall opening directly to private deck",
+          "Sunken ocean hammock suspended above turquoise waters",
+          "Freestanding Italian marble soaking bathtub with sunset orientation"
+        ]
+      },
+      interior: {
+        badgeCat: "Architectural Elegance",
+        badgeCap: "Master Bedroom Suite",
+        sub: "Minimalist Craftsmanship",
+        title: "Hand-Hewn Natural Textures & Cool Linens",
+        desc: "Interior spaces blend custom Japanese joinery with Italian stone vanities. Organic Belgian bed linens and acoustic privacy dampening ensure peaceful oceanfront slumber.",
+        img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=85",
+        features: [
+          "Custom King featherbed dressed in 800-thread Belgian percale",
+          "Integrated Bang & Olufsen acoustic sanctuary soundscape",
+          "Walk-in dressing room with complimentary pressing service"
+        ]
+      },
+      view: {
+        badgeCat: "Boundless Panoramas",
+        badgeCap: "Sunset Atoll Horizon",
+        sub: "Private Panorama",
+        title: "Sunset Reflected in Your Private Horizon Pool",
+        desc: "Step directly from your bedroom threshold into an 18-meter cantilevered infinity pool that merges seamlessly with the Indian Ocean reef drop-off.",
+        img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=85",
+        features: [
+          "18m private infinity-edge freshwater plunge pool",
+          "Direct timber stairway to private reef snorkeling",
+          "Unobstructed 270° western sunset exposure"
+        ]
+      },
+      amenities: {
+        badgeCat: "Curated Comfort",
+        badgeCap: "Open-Air Spa Bathroom",
+        sub: "Holistic Luxuries",
+        title: "Marble Bath Pavilions & Bespoke Botanicals",
+        desc: "Carved from monolithic stone, our open-sky baths feature rain showers, custom organic essential oils formulated on the island, and Dyson Supersonic wellness amenities.",
+        img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1600&q=85",
+        features: [
+          "Monolithic carved granite soaking tub with sea views",
+          "Dual open-sky rainwater showers with botanical gardens",
+          "Dedicated 24/7 personal butler service at your tap"
+        ]
+      }
+    };
+
+    function switchRoomTab(tabKey) {
+      document.querySelectorAll('.room-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-azurea-champagne', 'text-azurea-charcoal', 'font-semibold');
+        btn.classList.add('text-azurea-stone');
+      });
+      const activeBtn = document.getElementById(`tab-btn-${tabKey}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-azurea-champagne', 'text-azurea-charcoal', 'font-semibold');
+        activeBtn.classList.remove('text-azurea-stone');
+      }
+
+      const data = roomData[tabKey];
+      const img = document.getElementById('room-interactive-img');
+      img.style.opacity = '0';
+      
+      setTimeout(() => {
+        img.src = data.img;
+        document.getElementById('room-badge-category').innerText = data.badgeCat;
+        document.getElementById('room-badge-caption').innerText = data.badgeCap;
+        document.getElementById('room-content-subtitle').innerText = data.sub;
+        document.getElementById('room-content-title').innerText = data.title;
+        document.getElementById('room-content-desc').innerText = data.desc;
+
+        let featsHtml = '';
+        data.features.forEach(f => {
+          featsHtml += `
+            <div class="flex items-center space-x-3 text-xs text-azurea-stone font-light">
+              <span class="w-1.5 h-1.5 rounded-full bg-azurea-champagne"></span>
+              <span>${f}</span>
+            </div>
+          `;
+        });
+        document.getElementById('room-content-features').innerHTML = featsHtml;
+        img.style.opacity = '1';
+      }, 300);
+    }
+
+    /* -------------------------------------------------------------
+       7. Interactive Gallery Lightbox
+       ------------------------------------------------------------- */
+    const galleryImages = [
+      { url: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=90", cap: "Azurea Atoll Overwater Boardwalk at Midday" },
+      { url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=90", cap: "Sunset Residence Infinity Deck & Ocean Vistas" },
+      { url: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=90", cap: "Minimalist Master Sanctuary with Teak Accents" },
+      { url: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1600&q=90", cap: "Ayurvedic Treatment Pavilion Above Coral Beds" },
+      { url: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=90", cap: "Mare Signature Restaurant Overwater Twilight" },
+      { url: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1600&q=90", cap: "Pristine Southern Sandbank Seclusion" }
+    ];
+    let currentLightboxIdx = 0;
+
+    function openLightbox(idx) {
+      currentLightboxIdx = idx;
+      updateLightbox();
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    function updateLightbox() {
+      const data = galleryImages[currentLightboxIdx];
+      document.getElementById('lightbox-img').src = data.url;
+      document.getElementById('lightbox-caption').innerText = data.cap;
+      document.getElementById('lightbox-counter').innerText = `Image ${currentLightboxIdx + 1} of ${galleryImages.length}`;
+    }
+
+    function prevLightbox() {
+      currentLightboxIdx = (currentLightboxIdx - 1 + galleryImages.length) % galleryImages.length;
+      updateLightbox();
+    }
+
+    function nextLightbox() {
+      currentLightboxIdx = (currentLightboxIdx + 1) % galleryImages.length;
+      updateLightbox();
+    }
+
+    // Keyboard support for Lightbox
+    window.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('lightbox-modal');
+      if (modal && !modal.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextLightbox();
+        if (e.key === 'ArrowLeft') prevLightbox();
+      }
+    });
+
+    /* -------------------------------------------------------------
+       8. Testimonial Slider Controls
+       ------------------------------------------------------------- */
+    let currentTestimonial = 0;
+    const totalTestimonials = 3;
+
+    function showTestimonial(idx) {
+      for (let i = 0; i < totalTestimonials; i++) {
+        const slide = document.getElementById(`testimonial-slide-${i}`);
+        if (i === idx) {
+          slide.classList.remove('hidden');
+          slide.style.opacity = '1';
+        } else {
+          slide.classList.add('hidden');
+          slide.style.opacity = '0';
+        }
+      }
+      const dots = document.getElementById('testimonial-dots').children;
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].className = i === idx ? 'w-2 h-2 rounded-full bg-azurea-champagne' : 'w-2 h-2 rounded-full bg-azurea-stone/30';
+      }
+      currentTestimonial = idx;
+    }
+
+    function nextTestimonial() {
+      showTestimonial((currentTestimonial + 1) % totalTestimonials);
+    }
+
+    function prevTestimonial() {
+      showTestimonial((currentTestimonial - 1 + totalTestimonials) % totalTestimonials);
+    }
+
+    setInterval(nextTestimonial, 8000);
+
+    /* -------------------------------------------------------------
+       9. Modal, Drawer & Form Handlers
+       ------------------------------------------------------------- */
+    function openBookingModal(suiteName) {
+      if (suiteName) {
+        document.getElementById('modal-suite-title').innerText = `Inquiring for: ${suiteName}`;
+      } else {
+        document.getElementById('modal-suite-title').innerText = "Select dates for instant availability inquiry";
+      }
+      const modal = document.getElementById('booking-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById('booking-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    function toggleMenuDrawer() {
+      const drawer = document.getElementById('menu-drawer');
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        drawer.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      } else {
+        drawer.classList.add('hidden');
+        drawer.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.remove('translate-y-32');
+      toast.classList.add('translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0');
+        toast.classList.add('translate-y-32');
+      }, 4500);
+    }
+
+    function handleQuickCheck(e) {
+      e.preventDefault();
+      openBookingModal('Preferred Villa Category');
+    }
+
+    function handleModalSubmit(e) {
+      e.preventDefault();
+      closeBookingModal();
+      showToast("Thank you. Our private concierge desk will contact you within 2 hours.");
+    }
+
+    function handleReservationSubmit(e) {
+      e.preventDefault();
+      showToast("Inquiry received. A bespoke itinerary proposal will be dispatched promptly.");
+      e.target.reset();
+    }
+
+    function handleNewsletter(e) {
+      e.preventDefault();
+      showToast("Welcome to the Azurea Gazette. You are subscribed.");
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
